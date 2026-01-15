@@ -89,6 +89,7 @@ const translations: Translations = {
   totalAmount: { en: 'Total Amount', ta: 'மொத்த தொகை' },
   confirmOrder: { en: 'Please confirm my order and let me know delivery details.', ta: 'என் ஆர்டரை உறுதிப்படுத்தி, டெலிவரி விவரங்களை தெரிவிக்கவும்.' },
   thankYou: { en: 'Thank you!', ta: 'நன்றி!' },
+  minOrderRequired: { en: 'Minimum order is ₹100 for home delivery', ta: 'வீட்டு டெலிவரிக்கு குறைந்தபட்ச ஆர்டர் ₹100' },
 };
 
 interface LanguageContextType {

@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Minus, ShoppingCart, ShoppingBag } from 'lucide-react';
+import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
 import { Product } from '@/data/products';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
@@ -12,8 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-
-const WHATSAPP_NUMBER = '919629323252';
 
 interface ProductModalProps {
   product: Product | null;
@@ -55,33 +52,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose })
     onClose();
   };
 
-  const handleBuyNow = () => {
-    const itemTotal = currentVariant.price * quantity;
-    const message = `Hello! I'd like to purchase:
-
-🛒 *Order Details:*
-
-📦 Product:
-${name} (${currentVariant.unit}) - ₹${currentVariant.price} × ${quantity} = ₹${itemTotal}
-
-📊 *Total Amount:* ₹${itemTotal}
-
-Please confirm my order and let me know delivery details.
-
-Thank you!`;
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    window.open(whatsappUrl, '_blank');
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="sr-only">{name}</DialogTitle>
         </DialogHeader>
-        
+
         <div className="grid md:grid-cols-2 gap-6">
           {/* Product Image */}
           <div className="relative aspect-square rounded-lg overflow-hidden">
@@ -106,9 +83,9 @@ Thank you!`;
           {/* Product Details */}
           <div className="flex flex-col">
             <h2 className="font-heading text-2xl font-bold text-foreground">{name}</h2>
-            
+
             <p className="mt-3 text-muted-foreground">{description}</p>
-            
+
             {/* Variant Selector */}
             {product.variants && product.variants.length > 0 && (
               <div className="mt-4">
@@ -118,11 +95,10 @@ Thank you!`;
                     <button
                       key={variant.unit}
                       onClick={() => setSelectedVariantIndex(idx)}
-                      className={`px-4 py-2 text-sm rounded-md border transition-all ${
-                        selectedVariantIndex === idx
+                      className={`px-4 py-2 text-sm rounded-md border transition-all ${selectedVariantIndex === idx
                           ? 'bg-primary text-primary-foreground border-primary'
                           : 'bg-muted border-border hover:border-primary'
-                      }`}
+                        }`}
                     >
                       {variant.unit} - ₹{variant.price}
                     </button>
@@ -178,15 +154,6 @@ Thank you!`;
               >
                 <ShoppingCart className="w-4 h-4" />
                 {t('addToCart')}
-              </Button>
-              
-              <Button
-                onClick={handleBuyNow}
-                disabled={!product.inStock}
-                className="w-full gap-2 bg-green-600 hover:bg-green-700"
-              >
-                <ShoppingBag className="w-4 h-4" />
-                {t('buyNow')}
               </Button>
             </div>
           </div>

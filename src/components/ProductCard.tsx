@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Minus, ShoppingCart, Check, ShoppingBag, Eye } from 'lucide-react';
+import { Plus, Minus, ShoppingCart, Check, Eye } from 'lucide-react';
 import { Product } from '@/data/products';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
@@ -47,26 +47,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) => {
       setIsAdded(false);
       setQuantity(1);
     }, 1500);
-  };
-
-  const handleBuyNow = () => {
-    const itemTotal = currentVariant.price * quantity;
-    const message = `Hello! I'd like to purchase:
-
-🛒 *Order Details:*
-
-📦 Product:
-${name} (${currentVariant.unit}) - ₹${currentVariant.price} × ${quantity} = ₹${itemTotal}
-
-📊 *Total Amount:* ₹${itemTotal}
-
-Please confirm my order and let me know delivery details.
-
-Thank you!`;
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-    window.open(whatsappUrl, '_blank');
   };
 
   return (
@@ -142,8 +122,8 @@ Thank you!`;
                     key={variant.unit}
                     onClick={() => setSelectedVariantIndex(idx)}
                     className={`px-3 py-1.5 text-sm rounded-md border transition-all ${selectedVariantIndex === idx
-                        ? 'bg-primary text-primary-foreground border-primary'
-                        : 'bg-muted border-border hover:border-primary'
+                      ? 'bg-primary text-primary-foreground border-primary'
+                      : 'bg-muted border-border hover:border-primary'
                       }`}
                   >
                     {variant.unit}
@@ -191,7 +171,7 @@ Thank you!`;
               onClick={handleAddToCart}
               disabled={!product.inStock || isAdded}
               variant="outline"
-              className={`w-full sm:flex-1 gap-2 border-primary/20 hover:border-primary transition-all duration-300 ${isAdded ? 'bg-green-600 hover:bg-green-600 text-white border-green-600' : ''
+              className={`w-full gap-2 border-primary/20 hover:border-primary transition-all duration-300 ${isAdded ? 'bg-green-600 hover:bg-green-600 text-white border-green-600' : ''
                 }`}
             >
               {isAdded ? (
@@ -205,15 +185,6 @@ Thank you!`;
                   {t('addToCart')}
                 </>
               )}
-            </Button>
-
-            <Button
-              onClick={handleBuyNow}
-              disabled={!product.inStock}
-              className="w-full sm:flex-1 gap-2 bg-green-600 hover:bg-green-700"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              {t('buyNow')}
             </Button>
           </div>
         </div>

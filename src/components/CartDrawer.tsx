@@ -15,23 +15,23 @@ const CartDrawer: React.FC = () => {
 
   const generateWhatsAppMessage = () => {
     const greeting = t('whatsappGreeting');
-    
+
     let message = `${greeting}\n\n`;
     message += `🛒 *${t('orderDetails')}:*\n\n`;
     message += `📦 Products:\n`;
-    
+
     items.forEach((item, index) => {
       const name = language === 'en' ? item.product.name.en : item.product.name.ta;
       const itemTotal = item.product.price * item.quantity;
       message += `${index + 1}. ${name} (${item.product.unit}) - ₹${item.product.price} × ${item.quantity} = ₹${itemTotal}\n`;
     });
-    
+
     message += `\n📊 *${t('orderSummary')}:*\n`;
     message += `${t('subtotal')}: ₹${subtotal}\n`;
     message += `${t('totalAmount')}: ₹${subtotal}\n\n`;
     message += `${t('confirmOrder')}\n\n`;
     message += `${t('thankYou')} 🙏`;
-    
+
     return encodeURIComponent(message);
   };
 
@@ -60,7 +60,7 @@ const CartDrawer: React.FC = () => {
               <ShoppingBag className="w-16 h-16 text-muted-foreground/30 mb-4" />
               <p className="text-lg font-medium text-muted-foreground">{t('cartEmpty')}</p>
               <p className="text-sm text-muted-foreground mt-1">{t('startShopping')}</p>
-              <Button 
+              <Button
                 className="mt-6"
                 onClick={() => setIsCartOpen(false)}
               >
@@ -93,7 +93,7 @@ const CartDrawer: React.FC = () => {
                     <p className="text-primary font-semibold mt-1">
                       ₹{item.product.price}
                     </p>
-                    
+
                     <div className="flex items-center justify-between mt-2">
                       <div className="flex items-center gap-2 bg-muted rounded-lg">
                         <Button
@@ -144,15 +144,22 @@ const CartDrawer: React.FC = () => {
               <span className="font-heading font-semibold">{t('total')}</span>
               <span className="font-heading font-bold text-primary">₹{subtotal}</span>
             </div>
-            
+
+            {subtotal < 100 && (
+              <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-lg border border-destructive/20 font-medium">
+                ⚠️ {t('minOrderRequired')}
+              </div>
+            )}
+
             <Button
               onClick={handleWhatsAppCheckout}
-              className="w-full h-12 text-base font-semibold gap-2 bg-green-600 hover:bg-green-700"
+              disabled={subtotal < 100}
+              className="w-full h-12 text-base font-semibold gap-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400"
             >
               <MessageCircle className="w-5 h-5" />
               {t('buyNow')}
             </Button>
-            
+
             <Button
               variant="outline"
               onClick={clearCart}
